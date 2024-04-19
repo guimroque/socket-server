@@ -1,3 +1,4 @@
+// eslint-disable-next-line prettier/prettier
 import { Client, type QueryResult } from 'pg'
 
 interface ConnectionConfig {
@@ -30,9 +31,9 @@ export class DatabaseClass {
 
   async query (query: string): Promise<any> {
     try {
-      console.log('[query_called]')
+      // console.log('[query_called]')
       const { rows }: QueryResult = await this.client.query(query)
-      console.log('Query executada com sucesso:', query, rows)
+      // console.log('Query executada com sucesso:', query, rows)
       if (rows.length === 1) return rows[0]
       return rows
     } catch (error) {
