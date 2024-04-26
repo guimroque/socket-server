@@ -52,7 +52,7 @@ io.on(SocketEvents.CONNECT, async socket => {
 
 	// Lidar com mensagens recebidas do cliente
 	socket.on(SocketEvents.DEFAULT, data => {
-		const { sessionId, to, type, request_id, data: content } = data
+		const { sessionId, to, request_id } = data
 		const room = `${sessionId}:${to}:${request_id}`
 		socket.to(room).emit(SocketEvents.DEFAULT, data)
 	})
