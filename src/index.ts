@@ -245,9 +245,21 @@ io.on('connection', async socket => {
 
 	// Lidar com desconexões de clientes
 	//todo: verificar na lista de rooms criadas, quando uma popup é fechada e avisar o [CONNECTOR] para não esperar mais
-	socket.on('disconnect', () => {
-		console.log('Um cliente se desconectou:', socket.handshake.auth)
-	})
+	// socket.on('disconnect', () => {
+	// 	//console.log('Um cliente se desconectou:', socket.handshake.auth)
+	// 	const { sessionId, request_id, username } = socket.handshake.auth
+	// 	if (username == '[UI]') {
+	// 		const room = `${sessionId}:${'[CONNECTOR]'}:${request_id}`
+	// 		console.log('[EMMITINDO]: ', room)
+	// 		io.to(room).emit('message', {
+	// 			username,
+	// 			request_id,
+	// 			to: '[CONNECTOR]',
+	// 			type: '[CLIENT_DISCONNECTED]',
+	// 			data: {},
+	// 		})
+	// 	}
+	// })
 })
 
 // Iniciar o servidor
