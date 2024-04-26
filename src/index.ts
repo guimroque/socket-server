@@ -1,13 +1,11 @@
 import express from 'express'
 import http from 'http'
 import socketIo from 'socket.io'
-import crypto from 'crypto'
-import { BSafe, Vault, TransactionStatus } from 'bsafe'
-import { IConnectedSocketUser, SocketEvents, SocketUsernames } from './types'
-import { IEventTX_REQUEST, IEventTX_CONFIRM, txConfirm, txRequest } from './modules/transactions'
-import { DatabaseClass } from './utils/database'
 
-const { PORT, TIMOUT_DICONNECT, APP_NAME, BAKO_URL_API } = process.env
+import { SocketEvents } from './types'
+import { txConfirm, txRequest } from './modules/transactions'
+
+const { PORT, TIMOUT_DICONNECT, APP_NAME } = process.env
 
 const app = express()
 const server = http.createServer(app)
@@ -54,31 +52,10 @@ io.on(SocketEvents.CONNECT, async socket => {
 
 	// Lidar com mensagens recebidas do cliente
 	socket.on(SocketEvents.DEFAULT, data => {
-		//console.log('Mensagem recebida:', data)
 		const { sessionId, to, type, request_id, data: content } = data
-		//await socket.join(`${sessionId}:${username}:${request_id}`)
 		const room = `${sessionId}:${to}:${request_id}`
-		// Enviar mensagem para todos os clientes conectados
 		socket.to(room).emit(SocketEvents.DEFAULT, data)
 	})
-
-	// Lidar com desconexões de clientes
-	//todo: verificar na lista de rooms criadas, quando uma popup é fechada e avisar o [CONNECTOR] para não esperar mais
-	// socket.on('disconnect', () => {
-	// 	//console.log('Um cliente se desconectou:', socket.handshake.auth)
-	// 	const { sessionId, request_id, username } = socket.handshake.auth
-	// 	if (username == '[UI]') {
-	// 		const room = `${sessionId}:${'[CONNECTOR]'}:${request_id}`
-	// 		console.log('[EMMITINDO]: ', room)
-	// 		io.to(room).emit('message', {
-	// 			username,
-	// 			request_id,
-	// 			to: '[CONNECTOR]',
-	// 			type: '[CLIENT_DISCONNECTED]',
-	// 			data: {},
-	// 		})
-	// 	}
-	// })
 })
 
 // Iniciar o servidor
