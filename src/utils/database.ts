@@ -1,6 +1,14 @@
 // eslint-disable-next-line prettier/prettier
 import { Client, type QueryResult } from 'pg'
 
+const {
+  DB_USER,
+  DB_PASSWORD,
+  DB_DATABASE,
+  DB_HOST,
+  DB_PORT
+} = process.env
+
 interface ConnectionConfig {
   user: string
   password: string
@@ -10,11 +18,11 @@ interface ConnectionConfig {
 }
 
 export const defaultConnection: ConnectionConfig = {
-  user: 'postgres',
-  password: 'postgres',
-  database: 'postgres',
-  host: '127.0.0.1',
-  port: 5432
+  user: DB_USER,
+  password: DB_PASSWORD,
+  database: DB_DATABASE,
+  host: DB_HOST,
+  port: Number(DB_PORT)
 }
 
 export class DatabaseClass {
